@@ -3,7 +3,7 @@ from platform import release
 from django.db import models
 
 # Create your models here.
-# Define all the models of the images in the database
+# Define all the models of the songs in the database
 
 class Song(models.Model):
     title = models.CharField(max_length=100)
@@ -11,5 +11,5 @@ class Song(models.Model):
     album = models.CharField(max_length=100)
     release = models.DateField(date)
     genre = models.CharField(max_length=100)
-    
+
 
