@@ -37,8 +37,11 @@ def song_detail(request, pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     elif request.method == 'DELETE':
+        custom_response = {
+            "Song Deleted": song.title
+        }
         song.delete()
-        return Response(song.delete, status=status.HTTP_200_OK)
+        return Response(custom_response, status=status.HTTP_200_OK)
 
 
 
