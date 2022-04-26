@@ -1,5 +1,4 @@
 from datetime import date
-from platform import release
 from django.db import models
 
 # Create your models here.
