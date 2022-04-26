@@ -1,10 +1,6 @@
-from distutils import errors
-from distutils.log import error
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
-import music
 from .serializers import SongSerializer
 from .models import Song
 from music import serializers
@@ -25,7 +21,7 @@ def songs_list(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
       
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["GET", "PUT", "DELETE", "PATCH"])
 def song_detail(request, pk):
     song = get_object_or_404(Song, pk=pk)
     if request.method == 'GET':
@@ -42,7 +38,12 @@ def song_detail(request, pk):
         }
         song.delete()
         return Response(custom_response, status=status.HTTP_200_OK)
-
+    elif request.method == "PATCH":
+        if song.likes >= 0: song.likes += 1
+        serializer = SongSerializer(song, data=request.data, partial=True)            
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 
